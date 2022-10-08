@@ -1,3 +1,5 @@
+using FridgeManager.Contracts;
+using FridgeManager.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +26,20 @@ namespace FridgeManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddHttpClient("fridges", c =>
+            {
+                c.BaseAddress = new Uri(Configuration.GetSection("FridgeAPI:fridges").Value);
+                c.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
+            services.AddHttpClient("fridge models", c =>
+            {
+                c.BaseAddress = new Uri(Configuration.GetSection("FridgeAPI:fridgeModels").Value);
+            });
+            services.AddHttpClient("products", c =>
+            {
+                c.BaseAddress = new Uri(Configuration.GetSection("FridgeAPI:products").Value);
+            });
+            services.AddScoped<IFridgeService, FridgeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
