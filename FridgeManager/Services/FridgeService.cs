@@ -40,5 +40,11 @@ namespace FridgeManager.Services
             IEnumerable<FridgeProduct> products = await response.Content.ReadFromJsonAsync<IEnumerable<FridgeProduct>>();
             return products;
         }
+
+        public async Task DeleteFridgeAsync(Guid id)
+        {
+            var response = await _client.DeleteAsync($"{id}");
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

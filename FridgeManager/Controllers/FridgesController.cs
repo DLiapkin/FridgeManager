@@ -33,5 +33,11 @@ namespace FridgeManager.Controllers
             IEnumerable<FridgeProduct> products = await _service.GetProductsForFridgeAsync(id);
             return View(products);
         }
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _service.DeleteFridgeAsync(id);
+            return View("Index");
+        }
     }
 }
