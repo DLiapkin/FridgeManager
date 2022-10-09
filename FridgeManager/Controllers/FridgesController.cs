@@ -34,10 +34,16 @@ namespace FridgeManager.Controllers
             return View(products);
         }
 
+        public async Task<IActionResult> Create()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Delete(Guid id)
         {
             await _service.DeleteFridgeAsync(id);
-            return View("Index");
+            IEnumerable<Fridge> fridges = await _service.GetAllFridgesAsync();
+            return View("Index", fridges);
         }
     }
 }
