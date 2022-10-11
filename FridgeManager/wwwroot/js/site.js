@@ -13,3 +13,16 @@ $('#process').on('show.bs.modal', function (event) {
     var updatedUrl = originalUrl.substring(0, originalUrl.lastIndexOf('/') + 1) + recipient
     $("#ok-delete").attr('href', updatedUrl)
 })
+
+$("#btnAdd").on('click', function () {
+    $.ajax({
+        async: true,
+        data: $('#form').serialize(),
+        type: "POST",
+        url: '/Fridges/AddFridgeProduct',
+        success: function (partialView) {
+            console.log("partialView: " + partialView)
+            $('#products').html(partialView)
+        }
+    })
+})

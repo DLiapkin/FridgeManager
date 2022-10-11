@@ -1,0 +1,81 @@
+﻿@model FridgeManager.Models.ViewModels.CreateFridgeViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Fridge</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Fridge.Name" class="control-label"></label>
+                <input asp-for="Fridge.Name" class="form-control" />
+                <span asp-validation-for="Fridge.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fridge.OwnerName" class="control-label"></label>
+                <input asp-for="Fridge.OwnerName" class="form-control" />
+                <span asp-validation-for="Fridge.OwnerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fridge.ModelId" class="control-label"></label>
+                <input asp-for="Fridge.ModelId" class="form-control" />
+                <span asp-validation-for="Fridge.ModelId" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="products">
+                @Html.EditorFor(model => model.FridgeProducts[0])
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <input class="btn btn-default" type="button" id="btnAdd" value="Add product" />
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <label>Available products</label>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Products.FirstOrDefault().DefaultQuantity)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Product item in @Model.Products)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DefaultQuantity)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section scripts
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,8 @@
+﻿@model FridgeManager.Models.ViewModels.CreateFridgeViewModel
+@if(@Model.FridgeProducts.Count() > 0)
+{
+    @for (int i = 0; i < Model.FridgeProducts.Count(); i++)
+    {
+       @Html.EditorFor(model => model.FridgeProducts[i]);
+    }
+}
