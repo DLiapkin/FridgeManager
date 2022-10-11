@@ -42,6 +42,27 @@ namespace FridgeManager.Controllers
             }
         }
 
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            Product product = await _service.GetProductByIdAsync(id);
+            return View(product);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([Bind("Id,Name,DefaultQuantity")] Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                await _service.UpdateProductAsync(product);
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         public async Task<IActionResult> Delete(Guid id)
         {
             await _service.DeleteProductAsync(id);

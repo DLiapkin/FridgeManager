@@ -52,6 +52,17 @@ namespace FridgeManager.Services
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task UpdateProductAsync(Product product)
+        {
+            ProductToUpdate productToUpdate = new ProductToUpdate()
+            {
+                Name = product.Name,
+                DefaultQuantity= product.DefaultQuantity
+            };
+            var response = await _client.PutAsJsonAsync($"{product.Id}", productToUpdate);
+            response.EnsureSuccessStatusCode();
+        }
+
         public async Task DeleteProductAsync(Guid id)
         {
             var response = await _client.DeleteAsync($"{id}");

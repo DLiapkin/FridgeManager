@@ -1,0 +1,28 @@
+﻿@model FridgeManager.Models.Product
+
+<h1>Edit</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" id="form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.Name" class="control-label"></label>
+                <input asp-for="@Model.Name" class="form-control" />
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.DefaultQuantity" class="control-label"></label>
+                <input asp-for="@Model.DefaultQuantity" class="form-control" />
+                <span asp-validation-for="@Model.DefaultQuantity" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <input type="submit" value="Update" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
