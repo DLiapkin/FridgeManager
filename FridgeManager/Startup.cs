@@ -40,6 +40,7 @@ namespace FridgeManager
                 c.BaseAddress = new Uri(Configuration.GetSection("FridgeAPI:products").Value);
             });
             services.AddScoped<IFridgeService, FridgeService>();
+            services.AddScoped<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
