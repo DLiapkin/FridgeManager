@@ -107,8 +107,7 @@ namespace FridgeManager.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _service.DeleteFridgeAsync(id);
-            IEnumerable<Fridge> fridges = await _service.GetAllFridgesAsync();
-            return View("Index", fridges);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

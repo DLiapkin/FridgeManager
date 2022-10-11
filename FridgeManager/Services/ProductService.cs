@@ -1,5 +1,7 @@
 ﻿using FridgeManager.Contracts;
 using FridgeManager.Models;
+using FridgeManager.Models.DataTransferObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -26,6 +28,34 @@ namespace FridgeManager.Services
             }
             IEnumerable<Product> products = await response.Content.ReadFromJsonAsync<IEnumerable<Product>>();
             return products;
+        }
+
+        public async Task<Product> GetProductByIdAsync(Guid id)
+        {
+            var response = await _client.GetAsync($"{id}");
+            if (!response.IsSuccessStatusCode)
+            {
+                return new Product();
+            }
+            Product product = await response.Content.ReadFromJsonAsync<Product>();
+            return product;
+        }
+
+        public async Task CreateProductAsync(Product product)
+        {
+            ProductToCreate productToCreate = new ProductToCreate()
+            {
+                Name = product.Name,
+                DefaultQuantity = product.DefaultQuantity
+            };
+            var response = await _client.PostAsJsonAsync("", productToCreate);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task DeleteProductAsync(Guid id)
+        {
+            var response = await _client.DeleteAsync($"{id}");
+            response.EnsureSuccessStatusCode();
         }
     }
 }
