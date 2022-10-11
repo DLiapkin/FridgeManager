@@ -24,7 +24,10 @@ namespace FridgeManager.Services
         public async Task<IEnumerable<Fridge>> GetAllFridgesAsync()
         {
             var response = await _client.GetAsync("");
-            response.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode)
+            {
+                return Enumerable.Empty<Fridge>();
+            }
             IEnumerable<Fridge> fridges = await response.Content.ReadFromJsonAsync<IEnumerable<Fridge>>();
             return fridges;
         }
@@ -37,7 +40,7 @@ namespace FridgeManager.Services
             return fridge;
         }
 
-        public async Task CreateFridge(FridgeToCreate fridgeToCreate, List<FridgeProductToAdd> products)
+        public async Task CreateFridgeAsync(FridgeToCreate fridgeToCreate, List<FridgeProductToAdd> products)
         {
             var response = await _client.PostAsJsonAsync("", fridgeToCreate);
             response.EnsureSuccessStatusCode();
@@ -48,6 +51,18 @@ namespace FridgeManager.Services
             }
         }
 
+        public async Task UpdateFridgeAsync(Fridge fridge)
+        {
+            FridgeToUpdate fridgeToUpdate = new FridgeToUpdate()
+            {
+                Name = fridge.Name,
+                OwnerName = fridge.OwnerName,
+                ModelId = fridge.ModelId
+            };
+            var response = await _client.PutAsJsonAsync($"{fridge.Id}", fridgeToUpdate);
+            response.EnsureSuccessStatusCode();
+        }
+
         public async Task DeleteFridgeAsync(Guid id)
         {
             var response = await _client.DeleteAsync($"{id}");
@@ -56,7 +71,7 @@ namespace FridgeManager.Services
 
         public async Task CreateProductsForFridge(Guid fridgeId, List<FridgeProductToAdd> products)
         {
-            IEnumerable<Product> avaibleProducts = await GetAllProducts();
+            IEnumerable<Product> avaibleProducts = await GetAllProductsAsync();
             foreach (var product in products)
             {
                 if (avaibleProducts.Any(p => p.Name.Equals(product.ProductName)))
@@ -75,12 +90,15 @@ namespace FridgeManager.Services
         public async Task<IEnumerable<FridgeProduct>> GetProductsForFridgeAsync(Guid id)
         {
             var response = await _client.GetAsync($"{id}/products");
-            response.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode)
+            {
+                return Enumerable.Empty<FridgeProduct>();
+            }
             IEnumerable<FridgeProduct> products = await response.Content.ReadFromJsonAsync<IEnumerable<FridgeProduct>>();
             return products;
         }
 
-        public async Task<IEnumerable<Product>> GetAllProducts()
+        public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
             var response = await _productsClient.GetAsync("");
             response.EnsureSuccessStatusCode();

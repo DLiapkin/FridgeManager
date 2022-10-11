@@ -10,9 +10,10 @@ namespace FridgeManager.Contracts
     {
         public Task<IEnumerable<Fridge>> GetAllFridgesAsync();
         public Task<Fridge> GetFridgeAsync(Guid id);
-        public Task CreateFridge(FridgeToCreate fridge, List<FridgeProductToAdd> products);
+        public Task CreateFridgeAsync(FridgeToCreate fridge, List<FridgeProductToAdd> products);
+        public Task UpdateFridgeAsync(Fridge fridge);
         public Task DeleteFridgeAsync(Guid id);
         public Task<IEnumerable<FridgeProduct>> GetProductsForFridgeAsync(Guid id);
-        public Task<IEnumerable<Product>> GetAllProducts();
+        public Task<IEnumerable<Product>> GetAllProductsAsync();
     }
 }

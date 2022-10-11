@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace FridgeManager.Models
+namespace FridgeManager.Models.DataTransferObjects
 {
-    public class FridgeToCreate
+    public class FridgeToUpdate
     {
         [Required]
         public string Name { get; set; }

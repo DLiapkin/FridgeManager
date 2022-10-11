@@ -21,7 +21,7 @@ namespace FridgeManager.Controllers
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Fridge> fridges = await _service.GetAllFridgesAsync(); 
+            IEnumerable<Fridge> fridges = await _service.GetAllFridgesAsync();
             return View(fridges);
         }
 
@@ -42,7 +42,7 @@ namespace FridgeManager.Controllers
             CreateFridgeViewModel fridgeViewModel = new CreateFridgeViewModel();
             fridgeViewModel.Fridge = new FridgeToCreate();
             fridgeViewModel.FridgeProducts.Add(new FridgeProductToAdd());
-            fridgeViewModel.Products = (await _service.GetAllProducts()).ToList();
+            fridgeViewModel.Products = (await _service.GetAllProductsAsync()).ToList();
             return View(fridgeViewModel);
         }
 
@@ -62,7 +62,7 @@ namespace FridgeManager.Controllers
             {
                 if(ModelState.IsValid)
                 {
-                    await _service.CreateFridge(fridgeViewModel.Fridge, fridgeViewModel.FridgeProducts);
+                    await _service.CreateFridgeAsync(fridgeViewModel.Fridge, fridgeViewModel.FridgeProducts);
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -73,6 +73,34 @@ namespace FridgeManager.Controllers
             catch
             {
                 return View(fridgeViewModel.Fridge);
+            }
+        }
+
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            Fridge updateFridge = await _service.GetFridgeAsync(id);
+            return View(updateFridge);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([Bind("Id, Name,OwnerName,ModelId")] Fridge fridge)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await _service.UpdateFridgeAsync(fridge);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch
+            {
+                return View(fridge);
             }
         }
 
