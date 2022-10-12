@@ -11,7 +11,7 @@ namespace FridgeManager.Models
         [Display(Name = "Owner Name")]
         public string OwnerName { get; set; }
         [Required]
-        [Display(Name = "Model Id")]
+        [Display(Name = "Model")]
         public Guid ModelId { get; set; }
     }
 }

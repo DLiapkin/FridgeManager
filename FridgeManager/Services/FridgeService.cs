@@ -12,18 +12,20 @@ namespace FridgeManager.Services
 {
     public class FridgeService : IFridgeService
     {
-        private readonly HttpClient _client;
+        private readonly HttpClient _fridgeClient;
         private readonly HttpClient _productsClient;
+        private readonly HttpClient _fridgeModelClient;
 
         public FridgeService(IHttpClientFactory factory)
         {
-            _client = factory.CreateClient("fridges");
+            _fridgeClient = factory.CreateClient("fridges");
             _productsClient = factory.CreateClient("products");
+            _fridgeModelClient = factory.CreateClient("fridge models");
         }
 
         public async Task<IEnumerable<Fridge>> GetAllFridgesAsync()
         {
-            var response = await _client.GetAsync("");
+            var response = await _fridgeClient.GetAsync("");
             if (!response.IsSuccessStatusCode)
             {
                 return Enumerable.Empty<Fridge>();
@@ -34,7 +36,7 @@ namespace FridgeManager.Services
 
         public async Task<Fridge> GetFridgeAsync(Guid id)
         {
-            var response = _client.GetAsync($"{id}").Result;
+            var response = _fridgeClient.GetAsync($"{id}").Result;
             response.EnsureSuccessStatusCode();
             Fridge fridge = await response.Content.ReadFromJsonAsync<Fridge>();
             return fridge;
@@ -42,7 +44,7 @@ namespace FridgeManager.Services
 
         public async Task CreateFridgeAsync(FridgeToCreate fridgeToCreate, List<FridgeProductToAdd> products)
         {
-            var response = await _client.PostAsJsonAsync("", fridgeToCreate);
+            var response = await _fridgeClient.PostAsJsonAsync("", fridgeToCreate);
             response.EnsureSuccessStatusCode();
             if (products.Count > 0)
             {
@@ -59,13 +61,13 @@ namespace FridgeManager.Services
                 OwnerName = fridge.OwnerName,
                 ModelId = fridge.ModelId
             };
-            var response = await _client.PutAsJsonAsync($"{fridge.Id}", fridgeToUpdate);
+            var response = await _fridgeClient.PutAsJsonAsync($"{fridge.Id}", fridgeToUpdate);
             response.EnsureSuccessStatusCode();
         }
 
         public async Task DeleteFridgeAsync(Guid id)
         {
-            var response = await _client.DeleteAsync($"{id}");
+            var response = await _fridgeClient.DeleteAsync($"{id}");
             response.EnsureSuccessStatusCode();
         }
 
@@ -81,7 +83,7 @@ namespace FridgeManager.Services
                         ProductId = avaibleProducts.FirstOrDefault(p => p.Name.Equals(product.ProductName)).Id,
                         Quantity = product.Quantity
                     };
-                    var response = await _client.PostAsJsonAsync($"{fridgeId}/products", productToCreate);
+                    var response = await _fridgeClient.PostAsJsonAsync($"{fridgeId}/products", productToCreate);
                     response.EnsureSuccessStatusCode();
                 }
             }
@@ -89,7 +91,7 @@ namespace FridgeManager.Services
 
         public async Task<IEnumerable<FridgeProduct>> GetProductsForFridgeAsync(Guid id)
         {
-            var response = await _client.GetAsync($"{id}/products");
+            var response = await _fridgeClient.GetAsync($"{id}/products");
             if (!response.IsSuccessStatusCode)
             {
                 return Enumerable.Empty<FridgeProduct>();
@@ -100,7 +102,7 @@ namespace FridgeManager.Services
 
         public async Task DeleteProductForFridgeAsync(Guid fridgeId, Guid id)
         {
-            var response = await _client.DeleteAsync($"{fridgeId}/products/{id}");
+            var response = await _fridgeClient.DeleteAsync($"{fridgeId}/products/{id}");
             response.EnsureSuccessStatusCode();
         }
 
@@ -110,6 +112,14 @@ namespace FridgeManager.Services
             response.EnsureSuccessStatusCode();
             IEnumerable<Product> products = await response.Content.ReadFromJsonAsync<IEnumerable<Product>>();
             return products;
+        }
+
+        public async Task<IEnumerable<FridgeModel>> GetAllFridgeModelsAsync()
+        {
+            var response = await _fridgeModelClient.GetAsync("");
+            response.EnsureSuccessStatusCode();
+            IEnumerable<FridgeModel> models = await response.Content.ReadFromJsonAsync<IEnumerable<FridgeModel>>();
+            return models;
         }
     }
 }

@@ -17,5 +17,6 @@ namespace FridgeManager.Contracts
         public Task CreateProductsForFridge(Guid fridgeId, List<FridgeProductToAdd> products);
         public Task DeleteProductForFridgeAsync(Guid fridgeId, Guid Id);
         public Task<IEnumerable<Product>> GetAllProductsAsync();
+        public Task<IEnumerable<FridgeModel>> GetAllFridgeModelsAsync();
     }
 }

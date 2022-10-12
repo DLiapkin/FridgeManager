@@ -37,6 +37,7 @@ namespace FridgeManager.Controllers
             fridgeViewModel.Fridge = new FridgeToCreate();
             fridgeViewModel.FridgeProducts.Add(new FridgeProductToAdd());
             fridgeViewModel.Products = (await _service.GetAllProductsAsync()).ToList();
+            fridgeViewModel.Models = (await _service.GetAllFridgeModelsAsync()).ToList();
             return View(fridgeViewModel);
         }
 
