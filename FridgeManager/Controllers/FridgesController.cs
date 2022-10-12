@@ -31,12 +31,6 @@ namespace FridgeManager.Controllers
             return View(fridge);
         }
 
-        public async Task<IActionResult> ProductsList(Guid id)
-        {
-            IEnumerable<FridgeProduct> products = await _service.GetProductsForFridgeAsync(id);
-            return View(products);
-        }
-
         public async Task<IActionResult> Create()
         {
             CreateFridgeViewModel fridgeViewModel = new CreateFridgeViewModel();
@@ -84,7 +78,7 @@ namespace FridgeManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("Id, Name,OwnerName,ModelId")] Fridge fridge)
+        public async Task<IActionResult> Edit([Bind("Id,Name,OwnerName,ModelId")] Fridge fridge)
         {
             try
             {
@@ -108,6 +102,52 @@ namespace FridgeManager.Controllers
         {
             await _service.DeleteFridgeAsync(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ProductsList(Guid id)
+        {
+            ProductsListViewModel model = new ProductsListViewModel()
+            {
+                FridgeId = id
+            };
+            model.FridgeProducts = (await _service.GetProductsForFridgeAsync(id)).ToList();
+            model.Products = (await _service.GetAllProductsAsync()).ToList();
+            return View(model);
+        }
+
+        public async Task<IActionResult> CreateProduct(Guid id)
+        {
+            var model = new CreateFridgeProductViewModel();
+            model.FridgeId = id;
+            model.FridgeProduct = new FridgeProductToAdd();
+            model.Products = (await _service.GetAllProductsAsync()).ToList();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateProduct(Guid id, [Bind("FridgeProduct")] CreateFridgeProductViewModel productViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Guid fridgeId = id;
+                List<FridgeProductToAdd> products = new()
+                {
+                    productViewModel.FridgeProduct
+                };
+                await _service.CreateProductsForFridge(fridgeId, products);
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        public async Task<IActionResult> DeleteProduct(Guid fridgeId, Guid id)
+        {
+            await _service.DeleteProductForFridgeAsync(fridgeId, id);
+            return RedirectToAction(nameof(ProductsList), fridgeId);
         }
     }
 }

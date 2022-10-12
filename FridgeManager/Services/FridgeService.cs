@@ -98,6 +98,12 @@ namespace FridgeManager.Services
             return products;
         }
 
+        public async Task DeleteProductForFridgeAsync(Guid fridgeId, Guid id)
+        {
+            var response = await _client.DeleteAsync($"{fridgeId}/products/{id}");
+            response.EnsureSuccessStatusCode();
+        }
+
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
             var response = await _productsClient.GetAsync("");

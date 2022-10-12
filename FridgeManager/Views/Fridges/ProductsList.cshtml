@@ -1,24 +1,28 @@
-﻿@model IEnumerable<FridgeManager.Models.FridgeProduct>
+﻿@model FridgeManager.Models.ViewModels.ProductsListViewModel
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "ProductsList";
 }
 
+<p>
+    <a class="btn btn-success" asp-action="CreateProduct" asp-route-id="@Model.FridgeId">Create New</a>
+</p>
 <table class="table">
     <thead class="thead-light">
         <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FridgeProducts.FirstOrDefault().Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FridgeProducts.FirstOrDefault().ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FridgeProducts.FirstOrDefault().Quantity)
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (FridgeProduct item in @Model.FridgeProducts)
         {
             <tr>
                 <td>
@@ -30,10 +34,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
+                <td>
+                    <a class="btn btn-danger" asp-action="DeleteProduct" asp-route-fridgeId="@Model.FridgeId" asp-route-id="@item.Id">Delete</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 <div>
-    <a asp-action="Index">Go back to fridges</a>
+    <a class="btn btn-secondary" asp-action="Details" asp-route-id="@Model.FridgeId">Go back to fridge</a>
 </div>
