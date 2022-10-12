@@ -106,6 +106,12 @@ namespace FridgeManager.Services
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task ReplenishProducts()
+        {
+            var responce = await _fridgeClient.GetAsync("refresh-product");
+            responce.EnsureSuccessStatusCode();
+        }
+
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
             var response = await _productsClient.GetAsync("");

@@ -150,5 +150,11 @@ namespace FridgeManager.Controllers
             await _service.DeleteProductForFridgeAsync(fridgeId, id);
             return RedirectToAction(nameof(ProductsList), fridgeId);
         }
+
+        public async Task<IActionResult> ReplenishProduct()
+        {
+            await _service.ReplenishProducts();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
