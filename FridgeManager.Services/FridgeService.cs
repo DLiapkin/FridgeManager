@@ -4,9 +4,9 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using FridgeManager.Models;
+using FridgeManager.Entities.Models;
 using FridgeManager.Contracts;
-using FridgeManager.Models.DataTransferObjects;
+using FridgeManager.Entities.DataTransferObjects;
 
 namespace FridgeManager.Services
 {

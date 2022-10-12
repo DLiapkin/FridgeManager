@@ -1,9 +1,10 @@
-﻿using FridgeManager.Models.DataTransferObjects;
+﻿using FridgeManager.Entities.DataTransferObjects;
+using FridgeManager.Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace FridgeManager.Models.ViewModels
+namespace FridgeManager.Models
 {
     public class CreateFridgeProductViewModel
     {

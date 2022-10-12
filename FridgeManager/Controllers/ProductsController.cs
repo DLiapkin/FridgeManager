@@ -1,6 +1,6 @@
 ﻿using FridgeManager.Contracts;
-using FridgeManager.Models;
-using FridgeManager.Models.DataTransferObjects;
+using FridgeManager.Entities.Models;
+using FridgeManager.Entities.DataTransferObjects;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -31,14 +31,21 @@ namespace FridgeManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,DefaultQuantity")] Product product)
         {
-            if (ModelState.IsValid)
+            try
             {
-                await _service.CreateProductAsync(product);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    await _service.CreateProductAsync(product);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch
             {
-                return BadRequest();
+                return View();
             }
         }
 
@@ -52,14 +59,21 @@ namespace FridgeManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("Id,Name,DefaultQuantity")] Product product)
         {
-            if (ModelState.IsValid)
+            try
             {
-                await _service.UpdateProductAsync(product);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    await _service.UpdateProductAsync(product);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch
             {
-                return BadRequest();
+                return View();
             }
         }
 

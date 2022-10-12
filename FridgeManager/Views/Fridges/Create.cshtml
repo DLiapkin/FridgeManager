@@ -1,4 +1,5 @@
-﻿@model FridgeManager.Models.ViewModels.CreateFridgeViewModel
+﻿@using FridgeManager.Entities.Models
+@model FridgeManager.Models.CreateFridgeViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -27,7 +28,14 @@
                 <select asp-for=Fridge.ModelId>
                     @foreach (var item in Model.Models)
                     {
-                        <option value="@item.Id">@item.Name - @item.Year</option>
+                        @if (Model.Fridge.ModelId == item.Id)
+                        {
+                            <option selected value="@item.Id">@item.Name - @item.Year</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Id">@item.Name - @item.Year</option>
+                        }
                     }
                 </select>
                 <span asp-validation-for="@Model.Fridge.ModelId" class="text-danger"></span>

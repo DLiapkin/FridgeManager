@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using FridgeManager.Entities.Models;
 
-namespace FridgeManager.Models.ViewModels
+namespace FridgeManager.Models
 {
     public class ProductsListViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FridgeManager.Models.DataTransferObjects
+namespace FridgeManager.Entities.DataTransferObjects
 {
     public class ProductToUpdate
     {

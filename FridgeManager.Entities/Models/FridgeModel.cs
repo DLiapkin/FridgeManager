@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FridgeManager.Models
+namespace FridgeManager.Entities.Models
 {
     public class FridgeModel
     {

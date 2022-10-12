@@ -1,5 +1,5 @@
-﻿using FridgeManager.Models;
-using FridgeManager.Models.DataTransferObjects;
+﻿using FridgeManager.Entities.Models;
+using FridgeManager.Entities.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

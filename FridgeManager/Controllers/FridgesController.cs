@@ -1,7 +1,7 @@
 ﻿using FridgeManager.Contracts;
 using FridgeManager.Models;
-using FridgeManager.Models.DataTransferObjects;
-using FridgeManager.Models.ViewModels;
+using FridgeManager.Entities.Models;
+using FridgeManager.Entities.DataTransferObjects;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -67,25 +67,28 @@ namespace FridgeManager.Controllers
             }
             catch
             {
-                return View(fridgeViewModel.Fridge);
+                return View();
             }
         }
 
         public async Task<IActionResult> Edit(Guid id)
         {
-            Fridge updateFridge = await _service.GetFridgeAsync(id);
-            return View(updateFridge);
+            UpdateFridgeViewModel model = new UpdateFridgeViewModel();
+            model.Fridge = await _service.GetFridgeAsync(id);
+            model.Models = (await _service.GetAllFridgeModelsAsync()).ToList();
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("Id,Name,OwnerName,ModelId")] Fridge fridge)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Fridge")] UpdateFridgeViewModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    await _service.UpdateFridgeAsync(fridge);
+                    model.Fridge.Id = id;
+                    await _service.UpdateFridgeAsync(model.Fridge);
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -95,7 +98,7 @@ namespace FridgeManager.Controllers
             }
             catch
             {
-                return View(fridge);
+                return View(id);
             }
         }
 
@@ -129,19 +132,26 @@ namespace FridgeManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateProduct(Guid id, [Bind("FridgeProduct")] CreateFridgeProductViewModel productViewModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Guid fridgeId = id;
-                List<FridgeProductToAdd> products = new()
+                if (ModelState.IsValid)
                 {
-                    productViewModel.FridgeProduct
-                };
-                await _service.CreateProductsForFridge(fridgeId, products);
-                return RedirectToAction(nameof(Index));
+                    Guid fridgeId = id;
+                    List<FridgeProductToAdd> products = new()
+                    {
+                        productViewModel.FridgeProduct
+                    };
+                    await _service.CreateProductsForFridge(fridgeId, products);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch
             {
-                return BadRequest();
+                return View(id);
             }
         }
 
