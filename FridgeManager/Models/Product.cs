@@ -9,6 +9,7 @@ namespace FridgeManager.Models
         [Required]
         public string Name { get; set; }
         [Required]
+        [Display(Name="Default quantity")]
         [Range(0, int.MaxValue)]
         public int DefaultQuantity { get; set; }
     }

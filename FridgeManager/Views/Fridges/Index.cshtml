@@ -7,10 +7,10 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-success" asp-action="Create">Create New</a>
 </p>
 <table class="table">
-    <thead>
+    <thead class="border-bottom-1 thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Id)
@@ -44,8 +44,8 @@
                 @Html.DisplayFor(modelItem => item.ModelId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a class="btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <button type="button" class="btn btn-danger" data-target="#process" data-toggle="modal" data-fridge="@item.Id">
                     Delete
                 </button>
