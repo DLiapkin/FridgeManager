@@ -1,21 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Products\Create.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Products\Create.cshtml" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FridgeManager.Contracts\FridgeManager.Contracts.csproj" />
     <ProjectReference Include="..\FridgeManager.Entities\FridgeManager.Entities.csproj" />
-    <ProjectReference Include="..\FridgeManager.Services\FridgeManager.Services.csproj" />
   </ItemGroup>
 
 </Project>

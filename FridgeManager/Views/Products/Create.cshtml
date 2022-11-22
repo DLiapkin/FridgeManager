@@ -1,0 +1,35 @@
+﻿@model FridgeManager.Entities.DataTransferObjects.ProductToCreate
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.Name" class="control-label"></label>
+                <input asp-for="@Model.Name" class="form-control" />
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.DefaultQuantity" class="control-label"></label>
+                <input asp-for="@Model.DefaultQuantity" class="form-control" />
+                <span asp-validation-for="@Model.DefaultQuantity" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+                <div class="col-md-2">
+                    <a class="btn btn-secondary" asp-action="Index">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

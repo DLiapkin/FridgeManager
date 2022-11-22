@@ -1,0 +1,77 @@
+﻿@model IEnumerable<FridgeManager.Entities.Models.Fridge>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead class="border-bottom-1 thead-light">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OwnerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) 
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelId)
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a class="btn btn-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <button type="button" class="btn btn-danger" data-target="#process" data-toggle="modal" data-fridge="@item.Id">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div>
+    <a class="btn btn-secondary" asp-action="Index" asp-controller="Home">Back to Homepage</a>
+</div>
+
+<div class="modal fade" id="process" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel"></h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <a id="ok-delete" type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.FirstOrDefault().Id">Ок</a>
+        </div>
+      </div>
+  </div>
+</div>

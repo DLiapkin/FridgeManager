@@ -1,0 +1,48 @@
+﻿@using FridgeManager.Entities.Models
+@model FridgeManager.Models.ProductsListViewModel
+
+@{
+    ViewData["Title"] = "ProductsList";
+}
+
+<p>
+    <a class="btn btn-success" asp-action="CreateProduct" asp-route-id="@Model.FridgeId">Create New</a>
+</p>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FridgeProducts.FirstOrDefault().Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FridgeProducts.FirstOrDefault().ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FridgeProducts.FirstOrDefault().Quantity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (FridgeProduct item in @Model.FridgeProducts)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    <a class="btn btn-danger" asp-action="DeleteProduct" asp-route-fridgeId="@Model.FridgeId" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a class="btn btn-secondary" asp-action="Details" asp-route-id="@Model.FridgeId">Go back to fridge</a>
+</div>
